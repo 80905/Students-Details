@@ -24,8 +24,7 @@ module.exports = class Email {
     });
   }
 
-  async send(subject) {
-    const text = `Hey!! ${this.firstName} your most welcome!!\nYou can get your details here:${this.url}`;
+  async send(subject, text) {
     const mailOptions = {
       from: this.from,
       to: this.to,
@@ -37,7 +36,17 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('Welcome ,Now you can access the school functionalities!!');
+    await this.send(
+      'Welcome ,Now you can access the school functionalities!!',
+      `Hey!! ${this.firstName} your most welcome!!\nYou can get your details here:${this.url}`
+    );
+  }
+
+  async sendResetToken() {
+    await this.send(
+      'Reset token will valid till 10 minutes only!!',
+      `Forgot your password ? Submit PATCH request with your password and passwordConfirm to: ${this.url}.\n If didn't forget the password.Please ignore this email.`
+    );
   }
 };
 // const sendEmail = async (options) => {
