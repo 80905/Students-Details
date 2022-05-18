@@ -9,9 +9,15 @@ module.exports = class Email {
   }
 
   newTransport() {
-    // if ((process.env.NODE_ENV = 'production')) {
-    //   return 1;
-    // }
+    if ((process.env.NODE_ENV = 'production')) {
+      return nodemailer.createTransport({
+        service: 'SendinBlue',
+        auth: {
+          user: process.env.EMAIL_FROM,
+          pass: process.env.SENDINBLUE_PASSWORD,
+        },
+      });
+    }
 
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
@@ -44,7 +50,7 @@ module.exports = class Email {
 
   async sendResetToken() {
     await this.send(
-      'Reset token will valid till 10 minutes only!!',
+      'This reset token is valid till 10 minutes only !!',
       `Forgot your password ? Submit PATCH request with your password and passwordConfirm to: ${this.url}.\n If didn't forget the password.Please ignore this email.`
     );
   }

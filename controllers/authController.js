@@ -39,7 +39,7 @@ const sendToken = (user, starusCode, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
+  const url = `${req.protocol}://${req.get('host')}`;
   await new Email(newUser, url).sendWelcome();
 
   sendToken(newUser, 201, res);
