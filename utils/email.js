@@ -54,6 +54,13 @@ module.exports = class Email {
       `Forgot your password ? Submit PATCH request with your password and passwordConfirm to: ${this.url}.\n If didn't forget the password.Please ignore this email.`
     );
   }
+
+  async sendNotification() {
+    await this.send(
+      'A new notification has been out !!',
+      `A new notification has been out please visit our website to see the details. \nThis is url: ${this.url}`
+    );
+  }
 };
 // const sendEmail = async (options) => {
 //   //Create transportor
@@ -64,7 +71,7 @@ module.exports = class Email {
 //     // secure: false,
 //     auth: {
 //       user: process.env.EMAIL_USERNAME,
-//       pass: process.env.EMAIL_PASSWORD,
+//       pass: process.env.EMAIL_PASSWORD,l3
 //       // user: 'akhileshiseet1996@gmail.com',
 //       // pass: 'enterRealPassword',
 //     },

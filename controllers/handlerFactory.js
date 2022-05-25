@@ -1,10 +1,20 @@
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
+const User = require('../models/usersModel');
+const Email = require('../utils/email');
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
+
+    // const users = await User.find();
+    // const url = `${req.protocol}://${req.get('host')}`;
+    // await Promise.all(
+    //   users.forEach(async (user) => {
+    //     await new Email(user, url).sendNotification();
+    //   })
+    // );
 
     res.status(201).json({
       status: 'success',
@@ -16,7 +26,10 @@ exports.createOne = (Model) =>
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndDelete(req.params.id);
+    let ids = req.params.id.split(',');
+
+    const doc = await Promise.all(ids.map(async (id) => await Model.findByIdAndDelete({ _id: id })));
+    //const doc = await Model.findByIdAndDelete(req.params.id);
 
     if (!doc) {
       return next(new AppError(`${Model.modelName} not found on this id!!`, 404));
@@ -25,7 +38,7 @@ exports.deleteOne = (Model) =>
     res.status(204).json({
       status: 'success',
       data: {
-        doc: null,
+        doc,
       },
     });
   });

@@ -43,6 +43,7 @@ const router = require('./routes/route');
 const userRouter = require('./routes/usersRoute');
 const reviewRouter = require('./routes/reviewsRoute');
 const viewRouter = require('./routes/viewsRoute');
+const notificationRouter = require('./routes/notificationsRoute');
 
 const AppError = require('./utils/appError');
 const globalErrHandler = require('./controllers/errorController');
@@ -83,6 +84,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/students', router);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/notifications', notificationRouter);
 
 app.all('*', (req, res, next) => {
   // res.status(404).json({
